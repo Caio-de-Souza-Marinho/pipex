@@ -1,18 +1,41 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 21:19:47 by caide-so          #+#    #+#             */
+/*   Updated: 2025/01/16 21:35:10 by caide-so         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	main(int argc, char **argv, char **envp)
+#include "pipex.h"
+
+int	main(int argc, char **argv)
 {
-	int i;
+	int	fd;
+	char	buffer[1024];
+	ssize_t	bytes_read;
 
-	printf("Arguments (argv):\n");
-	for (int i = 0; i < argc; i++)
-		printf("argv[%d]: %s\n", i, argv[i]);
-	i = 0;
-	printf("Arguments (envp):\n");
-	while (envp[i] != NULL)
+	if (argc != 2)
 	{
-		printf("envp[%d]: %s\n", i, envp[i]);
-		i++;
+		ft_printf("Usage: ./pipex <filename>\n");
+		return (1);
 	}
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error opening file");
+		return (1);
+	}
+	while ((bytes_read = read(fd, buffer, 1023)) > 0)
+	{
+		buffer[bytes_read] = '\0';
+		write(1, buffer, bytes_read);
+	}
+	if (bytes_read == -1)
+		perror("Error reading file");
+	close(fd);
 	return (0);
 }
