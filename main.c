@@ -6,14 +6,13 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 21:19:47 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/16 21:46:00 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/16 21:59:04 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-/*
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	int	fd;
 	char	buffer[1024];
@@ -38,21 +37,10 @@ int	main(int argc, char **argv)
 	if (bytes_read == -1)
 		perror("Error reading file");
 	close(fd);
-	return (0);
-}
-*/
 
-int	main(int argc, char **argv, char **envp)
-{
 	char	*cmd = "/bin/ls";
 	char	*args[] = {cmd, "-l", NULL};
 
-	(void)argv;
-	if (argc != 1)
-	{
-		ft_printf("Usage: ./pipex\n");
-		return (1);
-	}
 	if (execve(cmd, args, envp) == -1)
 	{
 		perror("Error executing command");
