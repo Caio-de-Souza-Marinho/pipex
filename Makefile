@@ -8,6 +8,10 @@ OBJ_DIR		= obj/
 INCLUDE		= -I .
 LIBFT_DIR	= libft/
 LIBFT_LIB	= ${LIBFT_DIR}libft.a
+TEST_FILE1	= input.txt
+TEST_FILE2	= output.txt
+CMD_1		= "cat"
+CMD_2		= "wc -l"
 
 SRCS		= $(SRC_DIR)main.c \
 		  ${SRC_DIR}errors.c \
@@ -34,7 +38,7 @@ ${LIBFT_LIB}:
 			make -C ${LIBFT_DIR}
 
 leakfull:
-			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./${NAME} ${TEST_FILE}
+			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./${NAME} ${TEST_FILE1} ${CMD_1} ${CMD_2} ${TEST_FILE2}
 
 clean:
 			@echo "Cleaning object files..."

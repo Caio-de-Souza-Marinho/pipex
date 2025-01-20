@@ -77,5 +77,6 @@ char	*split_and_join_path(char *directory, char *cmd)
 	if (tmp == NULL)
 		error(4);
 	full_path = ft_strjoin(tmp, cmd);
+	free(tmp);
 	return (full_path);
 }
