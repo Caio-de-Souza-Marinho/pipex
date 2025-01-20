@@ -10,6 +10,10 @@ LIBFT_DIR	= libft/
 LIBFT_LIB	= ${LIBFT_DIR}libft.a
 
 SRCS		= $(SRC_DIR)main.c \
+		  ${SRC_DIR}errors.c \
+		  ${SRC_DIR}init.c \
+		  ${SRC_DIR}parse_args.c \
+		  ${SRC_DIR}close.c \
 
 OBJS		= ${SRCS:${SRC_DIR}%.c=${OBJ_DIR}%.o}
 
