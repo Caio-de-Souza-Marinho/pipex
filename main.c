@@ -6,29 +6,35 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 21:19:47 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/20 02:32:33 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/21 20:44:16 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	print_pipex(t_pipex *pipex);
-void	print_envp(char **envp, char *s);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
 
 	if (argc != 5)
-		error(1);
+		error(1, NULL);
 	if (envp == NULL || *envp == NULL)
-		error(3);
+		error(3, NULL);
 	pipex = init_pipex(argv, envp);
-	//print_envp(envp, "envp");
+	/*
+	print_envp(envp, "envp");
 	print_pipex(pipex);
+	*/
+	give_birth(pipex);
 	free_pipex(pipex);
 	return (0);
 }
+
+/*
+DEBUG FUNCTIONS
+
+void	print_pipex(t_pipex *pipex);
+void	print_envp(char **envp, char *s);
 
 void	print_pipex(t_pipex *pipex)
 {
@@ -53,3 +59,4 @@ void	print_envp(char **envp, char *s)
 		i++;
 	}
 }
+*/

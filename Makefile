@@ -10,14 +10,14 @@ LIBFT_DIR	= libft/
 LIBFT_LIB	= ${LIBFT_DIR}libft.a
 TEST_FILE1	= input.txt
 TEST_FILE2	= output.txt
-CMD_1		= "cat"
+CMD_1		= "cattt"
 CMD_2		= "wc -l"
-
 SRCS		= $(SRC_DIR)main.c \
 		  ${SRC_DIR}errors.c \
 		  ${SRC_DIR}init.c \
 		  ${SRC_DIR}parse_args.c \
 		  ${SRC_DIR}close.c \
+		  ${SRC_DIR}forks.c \
 
 OBJS		= ${SRCS:${SRC_DIR}%.c=${OBJ_DIR}%.o}
 

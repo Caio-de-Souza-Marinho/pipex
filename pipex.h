@@ -30,7 +30,7 @@ typedef struct s_pipex
 }	t_pipex;
 
 // errors
-int		error(int exit_code);
+int		error(int exit_code, t_pipex *pipex);
 
 // init struct
 t_pipex	*init_pipex(char **argv, char **envp);
@@ -41,5 +41,10 @@ char	*find_command_path(char *cmd, char **envp);
 // close / free
 void	free_pipex(t_pipex *pipex);
 void	free_split(char **arr);
+
+// forks
+void	give_birth(t_pipex *pipex);
+void	first_child_process(int pipe_fd[2], t_pipex *pipex);
+void	second_child_process(int pipe_fd[2], t_pipex *pipex);
 
 #endif
