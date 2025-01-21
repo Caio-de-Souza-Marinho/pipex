@@ -10,7 +10,7 @@ LIBFT_DIR	= libft/
 LIBFT_LIB	= ${LIBFT_DIR}libft.a
 TEST_FILE1	= input.txt
 TEST_FILE2	= output.txt
-CMD_1		= "cat"
+CMD_1		= "catt"
 CMD_2		= "wc -l"
 
 SRCS		= $(SRC_DIR)main.c \
