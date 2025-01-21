@@ -15,6 +15,9 @@
 void	print_pipex(t_pipex *pipex);
 void	print_envp(char **envp, char *s);
 
+void	give_birth(t_pipex *pipex);
+void	first_child_process(int pipe_fd[2], t_pipex *pipex);
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
@@ -24,10 +27,59 @@ int	main(int argc, char **argv, char **envp)
 	if (envp == NULL || *envp == NULL)
 		error(3);
 	pipex = init_pipex(argv, envp);
-	//print_envp(envp, "envp");
+	/*
+	print_envp(envp, "envp");
 	print_pipex(pipex);
+	*/
+	give_birth(pipex);
 	free_pipex(pipex);
 	return (0);
+}
+
+void	give_birth(t_pipex *pipex)
+{
+	int	pipe_fd[2];
+	int	pid;
+
+	// Create pipe
+	if (pipe(pipe_fd) == -1)
+		error(7);
+	// Fork the first child process
+	pid = fork();
+	if (pid < 0)
+		error(8);
+	if (pid == 0)
+	{
+		// Child process: Run cmd1
+		first_child_process(pipe_fd, pipex);
+	}
+	// Parent process: Continue to set up the second child :TODO
+	close(pipe_fd[1]);
+	// The parent will wait for the second child process later
+}
+
+void	first_child_process(int pipe_fd[2], t_pipex *pipex)
+{
+	// Open the infile
+	int	infile_fd;
+
+	infile_fd = open(pipex->infile, O_RDONLY);
+	if (infile_fd < 0)
+		error(5);
+	// Redirect stdin to the input file (using dup2)
+	if (dup2(infile_fd, STDIN_FILENO) < 0)
+		error(9);
+	// Close the original file descriptor
+	close(infile_fd);
+	// Redirect stdout to the write-end of the pipe
+	if (dup2(pipe_fd[1], STDOUT_FILENO) < 0)
+		error(10);
+	// Close unused read-end of the pipe
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	// Execute the first command
+	if (execve(pipex->cmd1_path, pipex->cmd1_args, pipex->envp) < 0)
+		error(11);
 }
 
 void	print_pipex(t_pipex *pipex)
@@ -53,3 +105,4 @@ void	print_envp(char **envp, char *s)
 		i++;
 	}
 }
+

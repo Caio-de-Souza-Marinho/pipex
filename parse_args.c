@@ -56,7 +56,7 @@ char	*validate_command_path(char **paths, char *cmd)
 	while (paths[i])
 	{
 		full_path = split_and_join_path(paths[i], cmd);
-		if (access(full_path, X_OK) == 0)
+		if (access(full_path, F_OK | X_OK) == 0)
 		{
 			free_split(paths);
 			return (full_path);
