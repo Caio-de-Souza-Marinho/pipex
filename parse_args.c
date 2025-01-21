@@ -28,7 +28,7 @@ char	*find_command_path(char *cmd, char **envp)
 		return (NULL);
 	paths = ft_split(path_env, ':');
 	if (paths == NULL)
-		error(4);
+		error(4, NULL);
 	return (validate_command_path(paths, cmd));
 }
 
@@ -75,7 +75,7 @@ char	*split_and_join_path(char *directory, char *cmd)
 
 	tmp = ft_strjoin(directory, "/");
 	if (tmp == NULL)
-		error(4);
+		error(4, NULL);
 	full_path = ft_strjoin(tmp, cmd);
 	free(tmp);
 	return (full_path);
