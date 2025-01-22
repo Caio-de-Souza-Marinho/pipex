@@ -21,12 +21,12 @@
 typedef struct s_pipex
 {
 	char	*infile;
-	char	*outfile;
 	char	**envp;
 	char	**cmd1_args;
 	char	**cmd2_args;
 	char	*cmd1_path;
 	char	*cmd2_path;
+	char	*outfile;
 }	t_pipex;
 
 // errors

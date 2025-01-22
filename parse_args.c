@@ -15,6 +15,7 @@
 char	*get_path_env(char **envp);
 char	*validate_command_path(char **paths, char *cmd);
 char	*split_and_join_path(char *directory, char *cmd);
+char	*validate_full_path(char *cmd);
 
 // Get the PATH environment variable
 // Split PATH into directoreis
@@ -23,6 +24,8 @@ char	*find_command_path(char *cmd, char **envp)
 	char	*path_env;
 	char	**paths;
 
+	if (*cmd == '/')
+		return (validate_full_path(cmd));
 	path_env = get_path_env(envp);
 	if (path_env == NULL || cmd == NULL || *cmd == '\0')
 		return (NULL);
@@ -44,6 +47,13 @@ char	*get_path_env(char **envp)
 			return (envp[i] + 5);
 		i++;
 	}
+	return (NULL);
+}
+
+char	*validate_full_path(char *cmd)
+{
+	if (access(cmd, F_OK | X_OK) == 0)
+		return (ft_strdup(cmd));
 	return (NULL);
 }
 

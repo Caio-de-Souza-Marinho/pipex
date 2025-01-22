@@ -14,7 +14,6 @@
 
 int	error(int exit_code, t_pipex *pipex)
 {
-	print_pipex(pipex);
 	if (pipex != NULL)
 		free_pipex(pipex);
 	if (exit_code == 1)

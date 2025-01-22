@@ -24,11 +24,6 @@ t_pipex	*init_pipex(char **argv, char **envp)
 	pipex->infile = argv[1];
 	if (access(pipex->infile, R_OK) != 0)
 		error(5, pipex);
-	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		error(6, pipex);
-	close(fd);
-	pipex->outfile = argv[4];
 	pipex->envp = envp;
 	if (!argv[2] || !argv[3] || *argv[2] == '\0' || *argv[3] == '\0')
 		error(3, pipex);
@@ -38,5 +33,10 @@ t_pipex	*init_pipex(char **argv, char **envp)
 	pipex->cmd2_path = find_command_path(pipex->cmd2_args[0], envp);
 	if (pipex->cmd1_path == NULL || pipex->cmd2_path == NULL)
 		error(3, pipex);
+	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		error(6, pipex);
+	close(fd);
+	pipex->outfile = argv[4];
 	return (pipex);
 }

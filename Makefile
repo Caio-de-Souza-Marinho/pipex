@@ -8,10 +8,10 @@ OBJ_DIR		= obj/
 INCLUDE		= -I .
 LIBFT_DIR	= libft/
 LIBFT_LIB	= ${LIBFT_DIR}libft.a
-TEST_FILE1	= in.txt
-TEST_FILE2	= output.txt
-CMD_1		= "cat"
-CMD_2		= "wc -l"
+TEST_FILE1	= infile.txt
+TEST_FILE2	= out.txt
+CMD_1		= "/usr/bin/cat"
+CMD_2		= "/usr/bin/wc -l"
 SRCS		= $(SRC_DIR)main.c \
 		  ${SRC_DIR}errors.c \
 		  ${SRC_DIR}init.c \

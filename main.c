@@ -23,8 +23,8 @@ int	main(int argc, char **argv, char **envp)
 	pipex = init_pipex(argv, envp);
 	/*
 	print_envp(envp, "envp");
-	*/
 	print_pipex(pipex);
+	*/
 	give_birth(pipex);
 	free_pipex(pipex);
 	return (0);
