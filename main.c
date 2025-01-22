@@ -30,12 +30,6 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-/*
-DEBUG FUNCTIONS
-
-void	print_pipex(t_pipex *pipex);
-void	print_envp(char **envp, char *s);
-
 void	print_pipex(t_pipex *pipex)
 {
 	ft_printf("==================START PIPEX STRUCT==================\n");
@@ -59,4 +53,3 @@ void	print_envp(char **envp, char *s)
 		i++;
 	}
 }
-*/

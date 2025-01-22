@@ -21,12 +21,12 @@
 typedef struct s_pipex
 {
 	char	*infile;
-	char	*outfile;
 	char	**envp;
 	char	**cmd1_args;
 	char	**cmd2_args;
 	char	*cmd1_path;
 	char	*cmd2_path;
+	char	*outfile;
 }	t_pipex;
 
 // errors
@@ -46,5 +46,9 @@ void	free_split(char **arr);
 void	give_birth(t_pipex *pipex);
 void	first_child_process(int pipe_fd[2], t_pipex *pipex);
 void	second_child_process(int pipe_fd[2], t_pipex *pipex);
+
+// debug
+void	print_pipex(t_pipex *pipex);
+void	print_envp(char **envp, char *s);
 
 #endif
