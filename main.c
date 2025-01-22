@@ -23,18 +23,12 @@ int	main(int argc, char **argv, char **envp)
 	pipex = init_pipex(argv, envp);
 	/*
 	print_envp(envp, "envp");
-	print_pipex(pipex);
 	*/
+	print_pipex(pipex);
 	give_birth(pipex);
 	free_pipex(pipex);
 	return (0);
 }
-
-/*
-DEBUG FUNCTIONS
-
-void	print_pipex(t_pipex *pipex);
-void	print_envp(char **envp, char *s);
 
 void	print_pipex(t_pipex *pipex)
 {
@@ -59,4 +53,3 @@ void	print_envp(char **envp, char *s)
 		i++;
 	}
 }
-*/

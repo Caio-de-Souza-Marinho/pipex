@@ -19,7 +19,8 @@ t_pipex	*init_pipex(char **argv, char **envp)
 
 	pipex = malloc(sizeof(t_pipex));
 	if (pipex == NULL)
-		error(2, pipex);
+		error(2, NULL);
+	ft_bzero(pipex, sizeof(t_pipex));
 	pipex->infile = argv[1];
 	if (access(pipex->infile, R_OK) != 0)
 		error(5, pipex);
