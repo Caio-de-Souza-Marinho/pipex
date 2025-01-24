@@ -38,7 +38,7 @@ t_pipex	*init_pipex(int argc, char **argv, char **envp)
 		error(6, pipex);
 	close(fd);
 	pipex->outfile = argv[argc - 1];
-	//parse_commands(pipex, argc, argv);
+	parse_commands(pipex, argc, argv);
 	return (pipex);
 }
 
@@ -60,7 +60,7 @@ void	parse_commands(t_pipex *pipex, int argc, char **argv)
 		if (!pipex->cmd_args[i] || !pipex->cmd_args[i][0])
 			error(3, pipex);
 		pipex->cmd_paths[i] = find_command_path(pipex->cmd_args[i][0], pipex->envp);
-		if (pipex->cmd_paths[i])
+		if (!pipex->cmd_paths[i])
 			error(3, pipex);
 		i++;
 	}
