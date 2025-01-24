@@ -19,7 +19,7 @@ char	*validate_full_path(char *cmd);
 
 // Get the PATH environment variable
 // Split PATH into directoreis
-char	*find_command_path(char *cmd, char **envp)
+char	*find_path(char *cmd, char **envp)
 {
 	char	*path_env;
 	char	**paths;

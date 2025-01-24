@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "libft/include/libft.h"
 # include <stdio.h>
@@ -23,8 +23,8 @@ typedef struct s_pipex
 {
 	char	*infile;
 	char	**envp;
-	int	cmd_count;
-	int	heredoc;
+	int		cmd_count;
+	int		heredoc;
 	char	***cmd_args;
 	char	**cmd_paths;
 	char	*outfile;
@@ -37,12 +37,13 @@ int		error(int exit_code, t_pipex *pipex);
 t_pipex	*init_pipex(int argc, char **argv, char **envp);
 
 // parse args
-char	*find_command_path(char *cmd, char **envp);
+char	*find_path(char *cmd, char **envp);
 
 // close / free
 void	free_split(char **arr);
-/*
+void	free_split_split(char ***arr);
 void	free_pipex(t_pipex *pipex);
+/*
 
 // forks
 void	give_birth(t_pipex *pipex);

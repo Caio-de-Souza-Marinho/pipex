@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "pipex_bonus.h"
 
 void	print_cmd_args(char ***cmds, char *s);
@@ -23,11 +22,11 @@ int	main(int argc, char **argv, char **envp)
 		error(1, NULL);
 	pipex = init_pipex(argc, argv, envp);
 	print_pipex(pipex);
+	free_pipex(pipex);
 	/*
 	if (pipex->heredoc)
 		handle_heredoc(pipex, argv[2]);
 	exec_pipeline(pipex);
-	free_pipex(pipex);
 	*/
 	/*
 	give_birth(pipex);
