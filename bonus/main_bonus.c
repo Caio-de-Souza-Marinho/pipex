@@ -10,23 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/include/ft_string.h"
+void	print_cmd_args(char ***cmds, char *s);
+
 #include "pipex_bonus.h"
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
 
-	if (argc != 5)
+	if (argc < 5 + ft_strncmp(argv[1], "here_doc", 8) == 0)
 		error(1, NULL);
-	if (envp == NULL || *envp == NULL)
-		error(3, NULL);
-	pipex = init_pipex(argv, envp);
-	/*
-	print_envp(envp, "envp");
+	pipex = init_pipex(argc, argv, envp);
 	print_pipex(pipex);
-	*/
-	give_birth(pipex);
+	/*
+	if (pipex->heredoc)
+		handle_heredoc(pipex, argv[2]);
+	exec_pipeline(pipex);
 	free_pipex(pipex);
+	*/
+	/*
+	give_birth(pipex);
+	*/
 	return (0);
 }
 
@@ -34,11 +39,11 @@ void	print_pipex(t_pipex *pipex)
 {
 	ft_printf("==================START PIPEX STRUCT==================\n");
 	ft_printf("%s\n", pipex->infile);
+	ft_printf("%d\n", pipex->cmd_count);
+	ft_printf("%d\n", pipex->heredoc);
+	print_envp(pipex->cmd_paths, "PRINT PATHS");
+	print_cmd_args(pipex->cmd_args, "PRINT ARGS");
 	ft_printf("%s\n", pipex->outfile);
-	print_envp(pipex->cmd1_args, "cmd1_args");
-	print_envp(pipex->cmd2_args, "cmd2_args");
-	ft_printf("%s\n", pipex->cmd1_path);
-	ft_printf("%s\n", pipex->cmd2_path);
 }
 
 void	print_envp(char **envp, char *s)
@@ -50,6 +55,25 @@ void	print_envp(char **envp, char *s)
 	while (envp[i])
 	{
 		ft_printf("%s\n", envp[i]);
+		i++;
+	}
+}
+
+void	print_cmd_args(char ***cmds, char *s)
+{
+	int	i;
+	int	j;
+
+	ft_printf("PRINT %s STRINGS\n", s);
+	i = 0;
+	while (cmds[i])
+	{
+		j = 0;
+		while (cmds[i][j])
+		{
+			ft_printf("%s\n", cmds[i][j]);
+			j++;
+		}
 		i++;
 	}
 }

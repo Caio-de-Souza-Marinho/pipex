@@ -12,6 +12,7 @@
 
 #include "pipex_bonus.h"
 
+/*
 void	give_birth(t_pipex *pipex)
 {
 	int	pipe_fd[2];
@@ -86,3 +87,4 @@ void	second_child_process(int pipe_fd[2], t_pipex *pipex)
 	if (execve(pipex->cmd2_path, pipex->cmd2_args, pipex->envp) < 0)
 		error(11, pipex);
 }
+*/

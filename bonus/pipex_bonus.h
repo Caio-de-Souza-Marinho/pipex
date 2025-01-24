@@ -17,15 +17,16 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 typedef struct s_pipex
 {
 	char	*infile;
 	char	**envp;
-	char	**cmd1_args;
-	char	**cmd2_args;
-	char	*cmd1_path;
-	char	*cmd2_path;
+	int	cmd_count;
+	int	heredoc;
+	char	***cmd_args;
+	char	**cmd_paths;
 	char	*outfile;
 }	t_pipex;
 
@@ -33,19 +34,21 @@ typedef struct s_pipex
 int		error(int exit_code, t_pipex *pipex);
 
 // init struct
-t_pipex	*init_pipex(char **argv, char **envp);
+t_pipex	*init_pipex(int argc, char **argv, char **envp);
 
 // parse args
 char	*find_command_path(char *cmd, char **envp);
 
 // close / free
-void	free_pipex(t_pipex *pipex);
 void	free_split(char **arr);
+/*
+void	free_pipex(t_pipex *pipex);
 
 // forks
 void	give_birth(t_pipex *pipex);
 void	first_child_process(int pipe_fd[2], t_pipex *pipex);
 void	second_child_process(int pipe_fd[2], t_pipex *pipex);
+*/
 
 // debug
 void	print_pipex(t_pipex *pipex);
