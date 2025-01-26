@@ -43,9 +43,10 @@ char	*find_path(char *cmd, char **envp);
 void	free_split(char **arr);
 void	free_split_split(char ***arr);
 void	free_pipex(t_pipex *pipex);
-/*
 
 // forks
+void	exec_pipeline(t_pipex *pipex);
+/*
 void	give_birth(t_pipex *pipex);
 void	first_child_process(int pipe_fd[2], t_pipex *pipex);
 void	second_child_process(int pipe_fd[2], t_pipex *pipex);

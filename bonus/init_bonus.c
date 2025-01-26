@@ -17,8 +17,6 @@ void	parse_commands(t_pipex *pipex, int argc, char **argv);
 t_pipex	*init_pipex(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
-	int		fd;
-	int		out_flags;
 
 	pipex = malloc(sizeof(t_pipex));
 	if (pipex == NULL)
@@ -27,8 +25,10 @@ t_pipex	*init_pipex(int argc, char **argv, char **envp)
 	pipex->heredoc = (ft_strncmp(argv[1], "here_doc", 8) == 0);
 	pipex->envp = envp;
 	pipex->infile = argv[1];
+	pipex->outfile = argv[argc - 1];
 	if (!pipex->heredoc && access(pipex->infile, R_OK) != 0)
 		error(5, pipex);
+	/*
 	if (pipex->heredoc)
 		out_flags = O_WRONLY | O_CREAT | O_APPEND;
 	else
@@ -37,7 +37,7 @@ t_pipex	*init_pipex(int argc, char **argv, char **envp)
 	if (fd == -1)
 		error(6, pipex);
 	close(fd);
-	pipex->outfile = argv[argc - 1];
+	*/
 	parse_commands(pipex, argc, argv);
 	return (pipex);
 }
