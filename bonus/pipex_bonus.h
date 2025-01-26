@@ -52,6 +52,7 @@ void	first_child_process(int pipe_fd[2], t_pipex *pipex);
 void	second_child_process(int pipe_fd[2], t_pipex *pipex);
 */
 
+char	**parse_args(char *cmd);
 // debug
 void	print_pipex(t_pipex *pipex);
 void	print_envp(char **envp, char *s);

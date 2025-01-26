@@ -56,7 +56,7 @@ void	parse_commands(t_pipex *pipex, int argc, char **argv)
 	i = 0;
 	while (i < pipex->cmd_count)
 	{
-		pipex->cmd_args[i] = ft_split(argv[start + i], ' ');
+		pipex->cmd_args[i] = parse_args(argv[start + i]);
 		if (!pipex->cmd_args[i] || !pipex->cmd_args[i][0])
 			error(3, pipex);
 		pipex->cmd_paths[i] = find_path(pipex->cmd_args[i][0], pipex->envp);

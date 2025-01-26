@@ -6,87 +6,83 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 02:14:35 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/22 22:07:31 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:18:29 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-char	*get_path_env(char **envp);
-char	*validate_command_path(char **paths, char *cmd);
-char	*split_and_join_path(char *directory, char *cmd);
-char	*validate_full_path(char *cmd);
+int	count_args(char *cmd);
+void	strip_quotes(char **token);
 
-// Get the PATH environment variable
-// Split PATH into directoreis
-char	*find_path(char *cmd, char **envp)
+// Main parser of commands and its flags
+char	**parse_args(char *cmd)
 {
-	char	*path_env;
-	char	**paths;
+	char	**args;
+	int		i;
+	int		start;
+	int		in_quote;
+	int		arr_idx;
 
-	if (*cmd == '/')
-		return (validate_full_path(cmd));
-	path_env = get_path_env(envp);
-	if (path_env == NULL || cmd == NULL || *cmd == '\0')
+	args = ft_calloc(count_args(cmd) + 1, sizeof(char *));
+	if (!args)
 		return (NULL);
-	paths = ft_split(path_env, ':');
-	if (paths == NULL)
-		error(4, NULL);
-	return (validate_command_path(paths, cmd));
-}
-
-// Find PATH variable in envp
-char	*get_path_env(char **envp)
-{
-	int		i;
-
 	i = 0;
-	while (envp[i])
+	start = 0;
+	in_quote = 0;
+	arr_idx = 0;
+	while (cmd[i])
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			return (envp[i] + 5);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*validate_full_path(char *cmd)
-{
-	if (access(cmd, F_OK | X_OK) == 0)
-		return (ft_strdup(cmd));
-	return (NULL);
-}
-
-char	*validate_command_path(char **paths, char *cmd)
-{
-	int		i;
-	char	*full_path;
-
-	i = 0;
-	while (paths[i])
-	{
-		full_path = split_and_join_path(paths[i], cmd);
-		if (access(full_path, F_OK | X_OK) == 0)
+		if (cmd[i] == '\'' || cmd[i] == '"')
+			in_quote = !in_quote;
+		else if (cmd[i] == ' ' && !in_quote)
 		{
-			free_split(paths);
-			return (full_path);
+			args[arr_idx] = ft_substr(cmd, start, i - start);
+			strip_quotes(&args[arr_idx]);
+			arr_idx++;
+			start = i + 1;
 		}
-		free(full_path);
 		i++;
 	}
-	free_split(paths);
-	return (NULL);
+	args[arr_idx] = ft_substr(cmd, start, i - start);
+	strip_quotes(&args[arr_idx]);
+	return (args);
 }
 
-char	*split_and_join_path(char *directory, char *cmd)
+// Helper function to count arguments (accounts for quotes)
+int	count_args(char *cmd)
 {
-	char	*tmp;
-	char	*full_path;
+	int	count;
+	int	in_quote;
 
-	tmp = ft_strjoin(directory, "/");
-	if (tmp == NULL)
-		error(4, NULL);
-	full_path = ft_strjoin(tmp, cmd);
-	free(tmp);
-	return (full_path);
+	count = 0;
+	in_quote = 0;
+	while (*cmd)
+	{
+		if (*cmd == '\'' || *cmd == '"')
+			in_quote = !in_quote;
+		else if (*cmd == ' ' && !in_quote)
+			count++;
+		cmd++;
+	}
+	return (count + 1);
+}
+
+void	strip_quotes(char **token)
+{
+	char	*str;
+	size_t	len;
+
+	str = *token;
+	if (!str)
+		return ;
+	len = ft_strlen(str);
+	if (len < 2)
+		return ;
+	if ((str[0] == '\'' && str[len - 1] == '\'')
+		|| (str[0] == '"' && str[len - 1] == '"'))
+	{
+		*token = ft_substr(str, 1, len - 2);
+		free(str);
+	}
 }
