@@ -19,6 +19,7 @@ SRCS		= $(SRC_DIR)main.c \
 		  ${SRC_DIR}parse_args.c \
 		  ${SRC_DIR}close.c \
 		  ${SRC_DIR}forks.c \
+		  ${SRC_DIR}find_path.c \
 
 SRCS_BONUS	= $(SRC_DIR)main_bonus.c \
 		  ${SRC_DIR}errors_bonus.c \
@@ -26,6 +27,8 @@ SRCS_BONUS	= $(SRC_DIR)main_bonus.c \
 		  ${SRC_DIR}parse_args_bonus.c \
 		  ${SRC_DIR}close_bonus.c \
 		  ${SRC_DIR}forks_bonus.c \
+		  ${SRC_DIR}find_path_bonus.c \
+		  ${SRC_DIR}heredoc_bonus.c \
 
 OBJS		= ${SRCS:${SRC_DIR}%.c=${OBJ_DIR}%.o}
 OBJS_BONUS	= ${SRCS_BONUS:${SRC_DIR}%.c=${OBJ_DIR}%.o}
