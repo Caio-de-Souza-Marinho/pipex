@@ -6,13 +6,11 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 21:19:47 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/26 23:53:27 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/26 23:56:01 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-void	print_cmd_args(char ***cmds, char *s);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -24,11 +22,11 @@ int	main(int argc, char **argv, char **envp)
 	if (pipex->heredoc)
 		handle_heredoc(pipex, argv[2]);
 	exec_pipeline(pipex);
-	print_pipex(pipex);
 	free_pipex(pipex);
 	return (0);
 }
 
+/*
 void	print_pipex(t_pipex *pipex)
 {
 	ft_printf("==================START PIPEX STRUCT==================\n");
@@ -71,3 +69,4 @@ void	print_cmd_args(char ***cmds, char *s)
 		i++;
 	}
 }
+*/
