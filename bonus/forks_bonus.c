@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:42:57 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/22 22:07:31 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/26 23:39:54 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	exec_pipeline(t_pipex *pipex)
 	int	i;
 	int	pipe_fd[2];
 
-	prev_pipe = open(pipex->infile, O_RDONLY);
+	if (pipex->heredoc)
+		prev_pipe = pipex->heredoc_fd;
+	else
+		prev_pipe = open(pipex->infile, O_RDONLY);
 	if (prev_pipe < 0 && !pipex->heredoc)
 		error(5, pipex);
 	i = 0;

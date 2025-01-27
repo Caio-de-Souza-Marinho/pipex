@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 21:22:59 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/22 22:07:31 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/26 23:51:37 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_pipex
 	char	**envp;
 	int		cmd_count;
 	int		heredoc;
+	int		heredoc_fd;
 	char	***cmd_args;
 	char	**cmd_paths;
 	char	*outfile;
@@ -36,7 +37,7 @@ int		error(int exit_code, t_pipex *pipex);
 // init struct
 t_pipex	*init_pipex(int argc, char **argv, char **envp);
 
-// parse args
+// find command paths
 char	*find_path(char *cmd, char **envp);
 
 // close / free
@@ -46,15 +47,15 @@ void	free_pipex(t_pipex *pipex);
 
 // forks
 void	exec_pipeline(t_pipex *pipex);
-/*
-void	give_birth(t_pipex *pipex);
-void	first_child_process(int pipe_fd[2], t_pipex *pipex);
-void	second_child_process(int pipe_fd[2], t_pipex *pipex);
-*/
 
+// parse command strings
 char	**parse_args(char *cmd);
+
 // debug
 void	print_pipex(t_pipex *pipex);
 void	print_envp(char **envp, char *s);
+
+// here doc handling
+void	handle_heredoc(t_pipex *pipex, char *limiter);
 
 #endif

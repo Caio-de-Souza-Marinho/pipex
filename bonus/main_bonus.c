@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 21:19:47 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/26 20:24:05 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/26 23:53:27 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ int	main(int argc, char **argv, char **envp)
 	if (argc < 5 + (ft_strncmp(argv[1], "here_doc", 8) == 0))
 		error(1, NULL);
 	pipex = init_pipex(argc, argv, envp);
-	print_pipex(pipex);
-	exec_pipeline(pipex);
-	free_pipex(pipex);
-	/*
 	if (pipex->heredoc)
 		handle_heredoc(pipex, argv[2]);
-	*/
+	exec_pipeline(pipex);
+	print_pipex(pipex);
+	free_pipex(pipex);
 	return (0);
 }
 
