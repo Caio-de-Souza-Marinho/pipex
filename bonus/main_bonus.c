@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 21:19:47 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/22 22:07:31 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:24:05 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ int	main(int argc, char **argv, char **envp)
 	/*
 	if (pipex->heredoc)
 		handle_heredoc(pipex, argv[2]);
-	*/
-	/*
-	give_birth(pipex);
 	*/
 	return (0);
 }

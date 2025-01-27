@@ -6,50 +6,46 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 02:14:35 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/26 20:18:29 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:49:25 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-int	count_args(char *cmd);
+int		count_args(char *cmd);
+void	process_char(char *cmd, int idx[4], char ***args);
 void	strip_quotes(char **token);
 
 // Main parser of commands and its flags
+// Splits a command string into arguments, handling quoted sections
+// Uses idx[4] to track:
+// idx[0] = Current character position (i)
+// idx[1] = Start position of current token
+// idx[2] = Quote Status (0/1)
+// idx[3] = Current index in the args array
 char	**parse_args(char *cmd)
 {
 	char	**args;
-	int		i;
-	int		start;
-	int		in_quote;
-	int		arr_idx;
+	int		idx[4];
 
+	idx[0] = 0;
+	idx[1] = 0;
+	idx[2] = 0;
+	idx[3] = 0;
 	args = ft_calloc(count_args(cmd) + 1, sizeof(char *));
 	if (!args)
 		return (NULL);
-	i = 0;
-	start = 0;
-	in_quote = 0;
-	arr_idx = 0;
-	while (cmd[i])
+	while (cmd[idx[0]])
 	{
-		if (cmd[i] == '\'' || cmd[i] == '"')
-			in_quote = !in_quote;
-		else if (cmd[i] == ' ' && !in_quote)
-		{
-			args[arr_idx] = ft_substr(cmd, start, i - start);
-			strip_quotes(&args[arr_idx]);
-			arr_idx++;
-			start = i + 1;
-		}
-		i++;
+		process_char(cmd, idx, &args);
+		idx[0]++;
 	}
-	args[arr_idx] = ft_substr(cmd, start, i - start);
-	strip_quotes(&args[arr_idx]);
+	args[idx[3]] = ft_substr(cmd, idx[1], idx[0] - idx[1]);
+	strip_quotes(&args[idx[3]]);
 	return (args);
 }
 
-// Helper function to count arguments (accounts for quotes)
+// Counts tokens in command strings, ignoring spaces inside quotes
 int	count_args(char *cmd)
 {
 	int	count;
@@ -68,6 +64,29 @@ int	count_args(char *cmd)
 	return (count + 1);
 }
 
+// Processes individual characters to build argument tokens
+// - Toggles quote status when encountering ' or "
+// - Splits tokens at unquoted spaces
+// - Automatically strips quotes from completed tokens
+// idx[0] = current position (i)
+// idx[1] = start position
+// idx[2] = in_quote status
+// idx[3] = array index (arr_idx)
+void	process_char(char *cmd, int idx[4], char ***args)
+{
+	if (cmd[idx[0]] == '\'' || cmd[idx[0]] == '"')
+		idx[2] = !idx[2];
+	else if (cmd[idx[0]] == ' ' && !idx[2])
+	{
+		(*args)[idx[3]] = ft_substr(cmd, idx[1], idx[0] - idx[1]);
+		strip_quotes(&(*args)[idx[3]++]);
+		idx[1] = idx[0] + 1;
+	}
+}
+
+// Checks if first and last characters are matching quotes
+// Creates a new substring excluding the quotes
+// Frees the original quoted string
 void	strip_quotes(char **token)
 {
 	char	*str;

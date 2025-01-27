@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 02:13:47 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/22 22:07:31 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:23:25 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,6 @@ t_pipex	*init_pipex(int argc, char **argv, char **envp)
 	pipex->outfile = argv[argc - 1];
 	if (!pipex->heredoc && access(pipex->infile, R_OK) != 0)
 		error(5, pipex);
-	/*
-	if (pipex->heredoc)
-		out_flags = O_WRONLY | O_CREAT | O_APPEND;
-	else
-		out_flags = O_WRONLY | O_CREAT | O_TRUNC;
-	fd = open(argv[argc - 1], out_flags, 0644);
-	if (fd == -1)
-		error(6, pipex);
-	close(fd);
-	*/
 	parse_commands(pipex, argc, argv);
 	return (pipex);
 }
