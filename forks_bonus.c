@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forks_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:42:57 by caide-so          #+#    #+#             */
-/*   Updated: 2025/01/26 23:39:54 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:56:36 by lsilva-x         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exec_child(t_pipex *pipex, int idx, int prev_pipe, int pipe_fd[2]);
 void	handle_parent(t_pipex *pipex, int idx, int *prev_pipe, int pipe_fd[2]);
-void	redirect_output(t_pipex *pipex, int idx);
+void	redirect_output(t_pipex *pipex, int idx, int pipe_fd[2]);
 void	close_pipes(int prev_pipe, int pipe_fd[2]);
 
 // Executes all commands in a pipeline with proper input/output redirection.
@@ -69,7 +69,7 @@ void	exec_child(t_pipex *pipex, int idx, int prev_pipe, int pipe_fd[2])
 		if (idx < pipex->cmd_count - 1)
 			dup2(pipe_fd[1], STDOUT_FILENO);
 		else
-			redirect_output(pipex, idx);
+			redirect_output(pipex, idx, pipe_fd);
 		close_pipes(prev_pipe, pipe_fd);
 		execve(pipex->cmd_paths[idx], pipex->cmd_args[idx], pipex->envp);
 	}
@@ -92,7 +92,7 @@ void	handle_parent(t_pipex *pipex, int idx, int *prev_pipe, int pipe_fd[2])
 // 1. Opens outfile with O_APPEND in heredoc mode or O_TRUNC otherwise.
 // 2. Uses dup2 to redirect output to the file descriptor.
 // Note: Ensures the output file is created with 0644 permissions.
-void	redirect_output(t_pipex *pipex, int idx)
+void	redirect_output(t_pipex *pipex, int idx, int pipe_fd[2])
 {
 	int	out_flags;
 	int	out_fd;
@@ -104,7 +104,11 @@ void	redirect_output(t_pipex *pipex, int idx)
 		out_flags = O_WRONLY | O_CREAT | O_TRUNC;
 	out_fd = open(pipex->outfile, out_flags, 0644);
 	if (out_fd < 0)
+	{
+		close(fd[0]);
+		close(fd[1]);
 		error(6, pipex);
+	}
 	dup2(out_fd, STDOUT_FILENO);
 	close(out_fd);
 }
