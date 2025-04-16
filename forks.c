@@ -17,7 +17,14 @@ void	handle_parent(t_pipex *pipex, int idx, int *prev_pipe, int pipe_fd[2]);
 void	redirect_output(t_pipex *pipex, int idx);
 void	close_pipes(int prev_pipe, int pipe_fd[2]);
 
-// Main pipeline execution controller
+// Executes all commands in a pipeline with proper input/output redirection.
+// 1. Opens the input or uses heredoc_fd in heredoc mode.
+// 2. For each command:
+// - Creates pipes (except for the last command).
+// - Forks child processes to execute commands.
+// - Redirects stdin/stdout using dup2.
+// 3. Waits for all child processes to complete.
+// Note: The last command writes to outfile instead of a pipe.
 void	exec_pipeline(t_pipex *pipex)
 {
 	int	prev_pipe;
@@ -44,7 +51,11 @@ void	exec_pipeline(t_pipex *pipex)
 		;
 }
 
-// Handle child process execution logic
+// Handles child process setup and command execution.
+// 1. Forks a new process.
+// 2. Redirects stdin from prev_pipe and stdout to pipe_fd[1] (or outfile).
+// 3. Executes the command via execve().
+// Note: Terminates the child process on failure.
 void	exec_child(t_pipex *pipex, int idx, int prev_pipe, int pipe_fd[2])
 {
 	int	pid;
@@ -64,7 +75,10 @@ void	exec_child(t_pipex *pipex, int idx, int prev_pipe, int pipe_fd[2])
 	}
 }
 
-// Manages parent process pipe handling
+// Manages pipe file descriptors in the parent process.
+// 1. Closes the previous pipe input.
+// 2. Updates prev_pipe to the current pipe's read end for the next command.
+// Note: Ensures unused pipes are closed to prevent leaks.
 void	handle_parent(t_pipex *pipex, int idx, int *prev_pipe, int pipe_fd[2])
 {
 	(void)pipex;
@@ -74,7 +88,10 @@ void	handle_parent(t_pipex *pipex, int idx, int *prev_pipe, int pipe_fd[2])
 	close(pipe_fd[1]);
 }
 
-// Handles output redirection for last command
+// Redirects stdout of the last command to the output file.
+// 1. Opens outfile with O_APPEND in heredoc mode or O_TRUNC otherwise.
+// 2. Uses dup2 to redirect output to the file descriptor.
+// Note: Ensures the output file is created with 0644 permissions.
 void	redirect_output(t_pipex *pipex, int idx)
 {
 	int	out_flags;
@@ -92,7 +109,9 @@ void	redirect_output(t_pipex *pipex, int idx)
 	close(out_fd);
 }
 
-// Cleanup function for pipe file descriptors
+// Closes pipe file descriptors after redirection.
+// 1. Closes prev_pipe (if not stdin).
+// 2. Closes both ends of the current pipe.
 void	close_pipes(int prev_pipe, int pipe_fd[2])
 {
 	if (prev_pipe != STDIN_FILENO)

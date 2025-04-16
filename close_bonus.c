@@ -12,6 +12,10 @@
 
 #include "pipex_bonus.h"
 
+// Frees all dynamically allocated memory in the t_pipex struct.
+// 1. Frees cmd_args (a 3D array) and cmd_paths (a 2D array).
+// 2. Releases the struct itself.
+// Note: Called during error handling and program termination.
 void	free_pipex(t_pipex *pipex)
 {
 	if (pipex == NULL)
@@ -23,6 +27,9 @@ void	free_pipex(t_pipex *pipex)
 	free(pipex);
 }
 
+// Frees a 2D array of strings.
+// 1. Iterates through each string in the array.
+// 2. Frees individual strings and the array itself.
 void	free_split(char **arr)
 {
 	int	i;
@@ -36,6 +43,9 @@ void	free_split(char **arr)
 	free(arr);
 }
 
+// Frees a 3d array of strings.
+// 1. Iterates through each sub-array.
+// 2. Frees nested strings and sub-arrays.
 void	free_split_split(char ***arr)
 {
 	int	i;

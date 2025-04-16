@@ -12,6 +12,12 @@
 
 #include "pipex_bonus.h"
 
+// Reads input from stdin until a delimiter is encountered and stores it int a
+// pipe.
+// 1. Creates a pipe to store heredoc content.
+// 2. Reads lines from stdin until the delimiter is provided.
+// 3. Writes lines to the pipe and sets heredoc_fd for later use.
+// Note: The delimiter must mach exactly (including the trailing newline).
 void	handle_heredoc(t_pipex *pipex, char *limiter)
 {
 	int		pipe_fd[2];

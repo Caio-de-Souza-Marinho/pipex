@@ -12,6 +12,10 @@
 
 #include "pipex.h"
 
+// Entry point of the program.
+// 1. Validates command-line arguments.
+// 2. Initializes pipex.
+// 3. Executes the pipeline and cleans up resources.
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
@@ -25,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 }
 
 /*
+//============================= DEBUG FUNCTIONS ===============================
 void	print_pipex(t_pipex *pipex)
 {
 	ft_printf("==================START PIPEX STRUCT==================\n");

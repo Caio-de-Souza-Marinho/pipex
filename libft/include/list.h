@@ -24,14 +24,14 @@ typedef struct s_list
  * @param lst the address of a pointer to the first node of a list
  * @param new the address of a pointer to the node to be added to the list.
 */
-void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstadd_back(t_list **lst, t_list *new_node);
 
 /* @brief Adds the node 'new' at the beginning of the list.
  * 
  * @param lst the address of a pointer to the first node of a list.
  * @param new the address of a pointer to the node to be added to the list.
 */
-void	ft_lstadd_front(t_list **lst, t_list *new);
+void	ft_lstadd_front(t_list **lst, t_list *new_node);
 
 /* @brief Deletes and frees the given node and every successor of that node,
  * using the function 'del' and frees it. Finally, the pointer to the list

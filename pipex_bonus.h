@@ -19,6 +19,18 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
+// Represents the core configuration and data for the pipex pipeline.
+// Members:
+// infile: Input file name (or "here_doc" if heredoce mode is active).
+// envp: Environment variables (used to locate commands paths).
+// cmd_count: Number of commands to execute in the pipeline.
+// heredoc: Flag (1/0) indicating if heredoc mode is active.
+// heredoc_fd: File descriptor for the heredoc temporary input.
+// cmd_args: 2D array of parsed command arguments (e.g., {"ls", "-l", NULL}).
+// cmd_paths: Array of resolved executable paths for each command.
+// outfile: Output file name.
+// Note: heredoc_fd is only valid if heredoc is set to 1.
+// Note: cmd_args and cmd_paths must be freed after execution.
 typedef struct s_pipex
 {
 	char	*infile;

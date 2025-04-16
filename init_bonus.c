@@ -14,6 +14,13 @@
 
 void	parse_commands(t_pipex *pipex, int argc, char **argv);
 
+// Initializes the t_pipex struct with command-line arguments and environment
+// variables.
+// 1. Allocates memory for the struct and initializes it to zero.
+// 2. Detects heredoc mode if the first argument is "here_doc".
+// 3. Sets input/output file names and validates input file access
+// (non_heredoc mode).
+// 4. Parses command arguments and resolves executables paths.
 t_pipex	*init_pipex(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
@@ -32,6 +39,10 @@ t_pipex	*init_pipex(int argc, char **argv, char **envp)
 	return (pipex);
 }
 
+// Parses command-line arguments into executable commands.
+// 1. Allocates memory for cmd_args and cmd_paths.
+// 2. Uses parse_args to split command strings into tokens.
+// 3. Resolves executable paths via find_path.
 void	parse_commands(t_pipex *pipex, int argc, char **argv)
 {
 	int		start;

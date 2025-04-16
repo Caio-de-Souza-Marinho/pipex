@@ -12,6 +12,11 @@
 
 #include "pipex.h"
 
+// Handles error conditions, prints appropriate messages, and exits the program
+// 1. Frees pipex struct if provided
+// 2. Prints error messages based on exit_code (e.g., invalid usage, file
+// errors).
+// 3. Terminates the program with specified exit_code
 int	error(int exit_code, t_pipex *pipex)
 {
 	if (pipex != NULL)

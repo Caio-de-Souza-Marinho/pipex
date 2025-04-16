@@ -16,13 +16,17 @@ int		count_args(char *cmd);
 void	process_char(char *cmd, int idx[4], char ***args);
 void	strip_quotes(char **token);
 
-// Main parser of commands and its flags
-// Splits a command string into arguments, handling quoted sections
+// Splits a command string into tokens, handling quoted arguments.
 // Uses idx[4] to track:
-// idx[0] = Current character position (i)
-// idx[1] = Start position of current token
-// idx[2] = Quote Status (0/1)
-// idx[3] = Current index in the args array
+// idx[0] = Current character position (i).
+// idx[1] = Start position of current token.
+// idx[2] = Quote Status (0/1).
+// idx[3] = Current index in the args array.
+// 1. Uses count_args to determine the number of tokens, ignoring spaces inside
+// quotes.
+// 2. Iterates through the command string to extract tokens.
+// 3. Calls strip_quotes to remove enclosing quotes from each token.
+// Note: Supports both single and double quotes.
 char	**parse_args(char *cmd)
 {
 	char	**args;
@@ -45,7 +49,14 @@ char	**parse_args(char *cmd)
 	return (args);
 }
 
-// Counts tokens in command strings, ignoring spaces inside quotes
+// Counts the number of tokens in a command string, ignoring spaces inside
+// quotes.
+// 1. Iterates through the command string.
+// 2. Tracks quote status (single ' or double ").
+// 3. Increments the token count for each unquoted space.
+// 4. Returns the total token count +1 to account for the final token.
+// Note: Used by parse_args to preallocate memory for argument arrays.
+// Note: Spaces within quotes are not treated as token separators.
 int	count_args(char *cmd)
 {
 	int	count;
@@ -64,14 +75,11 @@ int	count_args(char *cmd)
 	return (count + 1);
 }
 
-// Processes individual characters to build argument tokens
-// - Toggles quote status when encountering ' or "
-// - Splits tokens at unquoted spaces
-// - Automatically strips quotes from completed tokens
-// idx[0] = current position (i)
-// idx[1] = start position
-// idx[2] = in_quote status
-// idx[3] = array index (arr_idx)
+// Processes individual characters in a command string to build argument tokens
+// handling quoted sections.
+// 1. Toggles quote status when encountering ' or ".
+// 2. Splits tokens at unquoted spaces.
+// 3. Automatically strips quotes from completed tokens.
 void	process_char(char *cmd, int idx[4], char ***args)
 {
 	if (cmd[idx[0]] == '\'' || cmd[idx[0]] == '"')
@@ -84,9 +92,11 @@ void	process_char(char *cmd, int idx[4], char ***args)
 	}
 }
 
-// Checks if first and last characters are matching quotes
-// Creates a new substring excluding the quotes
-// Frees the original quoted string
+// Removes enclosing quotes from a token (e.g., "'hello'" -> "hello").
+// 1. Checks if the first and last characters are matching quotes.
+// 2. Creates a new substring excluding the quotes.
+// 3. Frees the original quotes string.
+// Note: Only removes quotes if they fully enclose the token.
 void	strip_quotes(char **token)
 {
 	char	*str;
