@@ -105,8 +105,8 @@ void	redirect_output(t_pipex *pipex, int idx, int pipe_fd[2])
 	out_fd = open(pipex->outfile, out_flags, 0644);
 	if (out_fd < 0)
 	{
-		close(fd[0]);
-		close(fd[1]);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 		error(6, pipex);
 	}
 	dup2(out_fd, STDOUT_FILENO);

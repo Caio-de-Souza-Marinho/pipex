@@ -30,7 +30,7 @@ int	error(int exit_code, t_pipex *pipex)
 	else if (exit_code == 5)
 		ft_printf("Infile not found\n");
 	else if (exit_code == 6)
-		ft_printf("Failed to create outfile\n");
+		ft_printf("Failed to create outfile/ Can't write to outfile\n");
 	else if (exit_code == 7)
 		ft_printf("Error creating pipes\n");
 	else if (exit_code == 8)
